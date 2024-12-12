@@ -29,6 +29,7 @@ import {
 	EXAMPLE_APP_FLOWS,
 	EXAMPLE_APP_STAGES,
 	EXAMPLE_APP_STAGES_CARD_NODE,
+	EXAMPLE_APP_PROMPT,
 	EXAMPLE_APP_EXPLAIN,
 	EXAMPLE_APP_EXPLAIN2,
 	EXAMPLE_APP_STREAMS,
@@ -160,7 +161,7 @@ export default class SidePanelForms extends React.Component {
 			var filename = evt.target.files[0].name;
 			var fileExt = filename.substring(filename.lastIndexOf(".") + 1);
 			if (fileExt === "json") {
-				this.setState({ canvasDiagram: evt.target.files[0] });
+				this.setState({ canvasDiagram: evt.target.files[0] }, () => this.submitCanvas());
 				this.props.log("Canvas diagram JSON file selected", filename);
 			}
 		}
@@ -173,7 +174,7 @@ export default class SidePanelForms extends React.Component {
 			var filename = evt.target.files[0].name;
 			var fileExt = filename.substring(filename.lastIndexOf(".") + 1);
 			if (fileExt === "json") {
-				this.setState({ canvasDiagram2: evt.target.files[0] });
+				this.setState({ canvasDiagram2: evt.target.files[0] }, () => this.submitCanvas2());
 				this.props.log("Canvas diagram JSON file selected", filename);
 			}
 		}
@@ -186,7 +187,7 @@ export default class SidePanelForms extends React.Component {
 			var filename = evt.target.files[0].name;
 			var fileExt = filename.substring(filename.lastIndexOf(".") + 1);
 			if (fileExt === "json") {
-				this.setState({ canvasPalette: evt.target.files[0] });
+				this.setState({ canvasPalette: evt.target.files[0] }, () => this.submitPalette());
 				this.props.log("Canvas palette JSON file selected", filename);
 			}
 		}
@@ -199,7 +200,7 @@ export default class SidePanelForms extends React.Component {
 			var filename = evt.target.files[0].name;
 			var fileExt = filename.substring(filename.lastIndexOf(".") + 1);
 			if (fileExt === "json") {
-				this.setState({ canvasPalette2: evt.target.files[0] });
+				this.setState({ canvasPalette2: evt.target.files[0] }, () => this.submitPalette2());
 				this.props.log("Canvas palette JSON file selected", filename);
 			}
 		}
@@ -1288,6 +1289,10 @@ export default class SidePanelForms extends React.Component {
 						labelText={EXAMPLE_APP_STAGES_CARD_NODE}
 					/>
 					<RadioButton
+						value={EXAMPLE_APP_PROMPT}
+						labelText={EXAMPLE_APP_PROMPT}
+					/>
+					<RadioButton
 						value={EXAMPLE_APP_READ_ONLY}
 						labelText={EXAMPLE_APP_READ_ONLY}
 					/>
@@ -1798,7 +1803,9 @@ export default class SidePanelForms extends React.Component {
 					{divider}
 					{enableShowBottomPanel}
 					{divider}
-					<div className="harness-side-panel-header">Context Menu</div>
+					<div className="harness-side-panel-header">Context Menu/Toolbar</div>
+					{divider}
+					{enableContextToolbar}
 					{divider}
 					{enableSaveToPalette}
 					{divider}
@@ -1829,8 +1836,6 @@ export default class SidePanelForms extends React.Component {
 					{enableKeyboardNavigation}
 					{divider}
 					{enableImageDisplay}
-					{divider}
-					{enableContextToolbar}
 					{divider}
 					{enableEditingActions}
 					{divider}
